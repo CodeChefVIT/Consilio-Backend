@@ -4,7 +4,8 @@
   "description": "<p align=\"center\"><a href=\"https://www.codechefvit.com\" target=\"_blank\"><img src=\"https://s3.amazonaws.com/codechef_shared/sites/all/themes/abessive/logo-3.png\" title=\"CodeChef-VIT\" alt=\"Codechef-VIT\"></a> </p>",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "repository": {
     "type": "git",

@@ -8,7 +8,7 @@ require("dotenv").config();
 var morgan = require("morgan");
 // const useragent = require("express-useragent");
 
-
+const database = require("./config/database");
 
 const logResponseBody = require("./utils/logResponse");
 

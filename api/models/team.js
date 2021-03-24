@@ -5,7 +5,9 @@ const userSchema = mongoose.Schema({
 
   name: { type: String },
 
-  code: { type: String },
+  leader:{type:mongoose.Schema.Types.ObjectId,ref:"User"},
+
+  code: { type: String, unique:true },
 
   bio: { type: String },
 
@@ -21,6 +23,7 @@ const userSchema = mongoose.Schema({
 
   submission:{
     type:String,
+    default:null
   },
 
   deleted_at:{

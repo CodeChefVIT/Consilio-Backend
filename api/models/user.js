@@ -23,6 +23,8 @@ const userSchema = mongoose.Schema({
 	},
 
 	googleId: { type: String },
+
+	inTeam:{type:Boolean,default:false}
 },{timestamps:true});
 
 module.exports = mongoose.model("User", userSchema);

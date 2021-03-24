@@ -9,7 +9,7 @@ const userSchema = mongoose.Schema({
 
   code: { type: String, unique:true },
 
-  bio: { type: String },
+  idea: { type: String },
 
   users:[
     {type:mongoose.Schema.Types.ObjectId, ref:"User"}

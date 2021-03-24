@@ -79,6 +79,13 @@ exports.join = async (req,res)=>{
   const {code} = req.body;
   const {userId} = req.user;
   
+  const team = Team.findOne({code})
+  if(!team){
+    return res.status(404).json({
+      message:"Team not found"
+    })
+  }
+  else{
   User.findById(userId).then((user)=>{
     if(user.inTeam){
       return res.status(403).json({
@@ -93,18 +100,79 @@ exports.join = async (req,res)=>{
           })
         }
         else{
-          Team.findOneAndUpdate({code:code},{$addToSet:{users:userId}})
+          Team.findOneAndUpdate({code:code},{$addToSet:{users:userId}},{new:true})
             .then((team)=>{
               User.updateOne({_id:userId},{inTeam:true,team:team._id})
                 .then(()=>{
                   res.status(201).json({
                     message:'Successfully joined team'
                   })
-                })
-            })
+                }).catch((e)=>{
+                  res.status(400).json({
+                    error:e.toString()
+                  })
+                  })
+            }).catch((e)=>{
+              res.status(400).json({
+                error:e.toString()
+              })
+              })
         }
         
+      }).catch((e)=>{
+        res.status(400).json({
+          error:e.toString()
+        })
+        })
+    }
+  }).catch((e)=>{
+    res.status(400).json({
+      error:e.toString()
+    })
+    })}
+}
+
+exports.leave = async (req,res)=>{
+  const {userId} = req.user
+  User.findById(userId).then(async(user)=>{
+    if(!user.inTeam){
+      return res.status(403).json({
+        message:"You don't have any friends, get a life"
       })
     }
-  })
+    else{
+      Team.findOneAndUpdate({_id:user.team},{$pull:{users:userId}},{new:true})
+        .then(async(team)=>{
+            if(team.users.length==0){
+              await Team.updateOne({_id:user.team},{deleted_at:Date.now()})
+            }
+
+         await User.updateOne({_id:userId},{team:null,inTeam:false})
+          .then(()=>{
+            res.status(200).json({
+              message:"Left team successfully"
+            })
+           
+          }).catch((e)=>{
+            res.status(400).json({
+              error:e.toString()
+            })
+            })
+        }).catch((e)=>{
+          res.status(400).json({
+            error:e.toString()
+          })
+          })
+
+    }
+  }).catch((e)=>{
+    res.status(400).json({
+      error:e.toString()
+    })
+    })
+
+
 }
+
+
+exports

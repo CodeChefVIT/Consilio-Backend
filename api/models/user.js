@@ -5,24 +5,26 @@ const userSchema = mongoose.Schema({
 
 	name: { type: String },
 
-	username: { type: String },
+	googleId: { type: String },
 
 	email: { type: String },
 
 	mobile: { type: Number },
-
-	password: { type: String },
-
-	bio: { type: String },
-
-	team: { type: mongoose.Schema.Types.ObjectId, ref: "Team" },
 
 	avatar: {
 		type: String,
 		default: "",
 	},
 
-	googleId: { type: String },
+	college: { type: String },
+
+	bio: { type: String },
+
+	team: { type: mongoose.Schema.Types.ObjectId, ref: "Team" },
+
+	// resumeLinkS3: { type: String },
+
+	isCheckedIn: { type: Boolean },
 
 	inTeam:{type:Boolean,default:false}
 },{timestamps:true});

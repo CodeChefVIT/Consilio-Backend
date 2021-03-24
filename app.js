@@ -72,7 +72,7 @@ app.use(cors());
 // }
 
 // ADD ROUTERS
-
+app.use('/auth', require('./config/googleAuth'))
 // ROUTERS END
 
 app.get("/checkServer", (req, res) => {

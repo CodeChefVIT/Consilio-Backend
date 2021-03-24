@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const userSchema = mongoose.Schema({
+const teamSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
 
   name: { type: String },
@@ -26,10 +26,6 @@ const userSchema = mongoose.Schema({
     default:null
   },
 
-  deleted_at:{
-    type:Date,
-    default:null
-  }
   
 },{timestamps:true});
 

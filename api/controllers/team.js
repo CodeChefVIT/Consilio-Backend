@@ -1,10 +1,10 @@
 const Team = require('../models/team')
 const User = require('../models/user')
-
+const mongoose=require('mongoose')
 
 exports.make = async (req,res)=>{
 
-  const {name,bio} = req.body
+  const {name} = req.body
   const {userId} = req.user
   if(!name){
     return res.status(400).json({
@@ -13,7 +13,8 @@ exports.make = async (req,res)=>{
   }
   else{
 User.findById(userId).then((user)=>{
-  if(user){
+  console.log(user)
+  if(user.inTeam){
     return res.status(403).json({
       message:"Already in a team"
     })
@@ -27,6 +28,8 @@ User.findById(userId).then((user)=>{
         })
       }
       else{
+        var text = '';
+        var charset = 'abcdefghijklmnopqrstuvwxyz';
         for (var i = 0; i < 5; i++)
         text += charset.charAt(Math.floor(Math.random() * charset.length));
         const code = text.toUpperCase();
@@ -34,7 +37,6 @@ User.findById(userId).then((user)=>{
         const team = new Team({
           _id: new mongoose.Types.ObjectId(),
           name,
-          bio,
           code,
         })
       
@@ -44,6 +46,7 @@ User.findById(userId).then((user)=>{
                 User.updateOne({_id:userId},{inTeam:true,team:team._id})
                   .then(()=>{
                     res.status(201).json({
+                      code,
                       message:'Team created'
                     })
                   }).catch((e)=>{
@@ -94,7 +97,7 @@ exports.join = async (req,res)=>{
     }
     else{
       Team.findOne({code}).then((team)=>{
-        if(users.length>=2){
+        if(team.users.length>=2){
           return res.status(403).json({
             message:"Team length full"
           })
@@ -144,7 +147,7 @@ exports.leave = async (req,res)=>{
       Team.findOneAndUpdate({_id:user.team},{$pull:{users:userId}},{new:true})
         .then(async(team)=>{
             if(team.users.length==0){
-              await Team.updateOne({_id:user.team},{deleted_at:Date.now()})
+              await Team.deleteOne({_id:user.team})
             }
 
          await User.updateOne({_id:userId},{team:null,inTeam:false})
@@ -175,4 +178,36 @@ exports.leave = async (req,res)=>{
 }
 
 
-exports
+exports.displayAll = async (req,res)=>{
+
+  Team.find({})
+    .populate({path:'leader',select:'name -_id'})
+    .populate({path:'users',select:'name email -_id'})
+    .select('-code -idea -avatar -submission -updatedAt -__v ')
+    .then((teams)=>{
+      res.status(200).json({
+        teams
+      })
+    }).catch((e)=>{
+      res.status(400).json({
+        error:e.toString()
+      })
+      })
+}
+
+exports.displayOne = async (req,res)=>{
+  const {teamId} = req.body
+  Team.findById(teamId)
+    .populate({path:'leader',select:'name -_id'})
+    .populate({path:'users',select:'name email -_id'})
+    .select('-code  -updatedAt -__v ')
+    .then((teams)=>{
+      res.status(200).json({
+        teams
+      })
+    }).catch((e)=>{
+      res.status(400).json({
+        error:e.toString()
+      })
+      })
+}

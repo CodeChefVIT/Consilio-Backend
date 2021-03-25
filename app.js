@@ -72,8 +72,9 @@ app.use(cors());
 // }
 
 // ADD ROUTERS
-app.use('/auth', require('./config/googleAuth'))
-app.use('/team',require('./api/routers/team'))
+app.use("/auth", require("./config/googleAuth"));
+app.use("/team", require("./api/routers/team"));
+app.use("/user", require("./api/routers/user"));
 // ROUTERS END
 
 app.get("/checkServer", (req, res) => {
@@ -103,7 +104,6 @@ app.use((error, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 3000;
-
 
 //Start the server
 app.listen(PORT, () => {

@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const express = require("express");
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const User = require("../api/models/user");
 
@@ -78,8 +78,8 @@ router.get("/google", async (req, res) => {
       .then((user) => {
         res.status(200).json({
           user,
-          token
-        })
+          token,
+        });
       })
       .catch((err) => {
         errorLogger.info(
@@ -100,7 +100,6 @@ router.get("/google", async (req, res) => {
       name: googleUser.name,
       email: googleUser.email,
       avatar: googleUser.picture,
-
     });
     await user
       .save()
@@ -118,8 +117,8 @@ router.get("/google", async (req, res) => {
         );
         res.status(200).json({
           user,
-          token
-        })
+          token,
+        });
       })
       .catch((err) => {
         errorLogger.info(
@@ -152,4 +151,4 @@ router.get("/getURL", (req, res) => {
   }
 });
 
-module.exports = router
+module.exports = router;

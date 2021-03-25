@@ -1,17 +1,19 @@
-const router=require('express').Router()
+const router = require("express").Router();
 
-const team = require('../controllers/team');
-const checkAuth = require('../middlewares/checkAuth')
+const team = require("../controllers/team");
+const checkAuth = require("../middlewares/checkAuth");
 
-router.post('/make',checkAuth,team.make)
+router.post("/make", checkAuth, team.make);
 
-router.post('/leave',checkAuth,team.leave)
+router.post("/leave", checkAuth, team.leave);
 
-router.post('/join',checkAuth,team.join)
+router.post("/join", checkAuth, team.join);
 
-router.get('/all',team.displayAll)
+router.get("/all", team.displayAll);
 
-router.get('/one',team.displayOne)
+router.get("/one", team.displayOne);
 
-router.patch('/update',checkAuth,team.update)
+router.patch("toggleFinalised", checkAuth, team.finalise);
+
+router.patch("/update", checkAuth, team.update);
 module.exports = router;

@@ -12,4 +12,6 @@ router.post('/join',checkAuth,team.join)
 router.get('/all',team.displayAll)
 
 router.get('/one',team.displayOne)
+
+router.patch('/update',checkAuth,team.update)
 module.exports = router;

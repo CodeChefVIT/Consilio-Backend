@@ -200,7 +200,7 @@ exports.displayOne = async (req,res)=>{
   Team.findById(teamId)
     .populate({path:'leader',select:'name -_id'})
     .populate({path:'users',select:'name email -_id'})
-    .select('-code  -updatedAt -__v ')
+    .select(' -updatedAt -__v ')
     .then((teams)=>{
       res.status(200).json({
         teams
@@ -210,4 +210,23 @@ exports.displayOne = async (req,res)=>{
         error:e.toString()
       })
       })
+}
+
+// update
+
+exports.update = async (req,res)=>{
+  const {teamId} = req.query;
+  // console.log(teamId)
+  update=req.body
+  Team.findOneAndUpdate({_id:teamId},update)
+    .then((team)=>{
+      res.status(201).json({
+        message:"Updated successfully"
+      })
+    }).catch((e)=>{
+      res.status(400).json({
+        error:e.toString()
+      })
+      })
+
 }

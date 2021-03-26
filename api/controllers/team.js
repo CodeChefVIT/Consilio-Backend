@@ -255,8 +255,8 @@ exports.finalise = async (req, res) => {
   const { teamId } = req.body;
   let team = await Team.findById(teamId);
   if (team) {
-    let x = !(team.finalise)
-    team.finalise = x
+    let x = !(team.finalised)
+    team.finalised = x
     await Team
       .updateOne({_id: teamId },team)
       .then((result) => {

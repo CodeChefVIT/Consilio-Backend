@@ -236,7 +236,15 @@ exports.displayOne = async (req, res) => {
 
 exports.update = async (req, res) => {
   const { teamId } = req.query;
-  // console.log(teamId)
+  const {userId} = req.user
+console.log(userId)
+  const user = await User.findOne({_id:userId});
+  if((user.team)!=teamId){
+      return res.status(403).json({
+        message:'Not your team'
+      })
+  }
+  else{
   update = req.body;
   Team.findOneAndUpdate({ _id: teamId }, update)
     .then((team) => {
@@ -249,6 +257,7 @@ exports.update = async (req, res) => {
         error: e.toString(),
       });
     });
+  }
 };
 
 exports.finalise = async (req, res) => {

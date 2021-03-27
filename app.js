@@ -38,7 +38,7 @@ app.use("/uploads", express.static("./public"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use(logResponseBody);
+// app.use(logResponseBody);
 
 // Allow CORS
 app.use((req, res, next) => {

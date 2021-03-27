@@ -76,17 +76,10 @@ router.get("/google", async (req, res) => {
     await user
       .save()
       .then((user) => {
-        res.status(200).json({
-          user,
-          token,
-        });
+        console.log("hllo")
+        res.redirect(`${process.env.REDIRECT_FRONTEND}${token}`)
       })
       .catch((err) => {
-        errorLogger.info(
-          `System: ${req.ip} | ${req.method} | ${
-            req.originalUrl
-          } >> ${err.toString()}`
-        );
         res.status(200).json({
           message: "Server Error",
           error: err.toString(),
@@ -115,17 +108,10 @@ router.get("/google", async (req, res) => {
             expiresIn: "24h",
           }
         );
-        res.status(200).json({
-          user,
-          token,
-        });
+        console.log("hllo")
+        res.redirect(`${process.env.REDIRECT_FRONTEND}${token}`)
       })
       .catch((err) => {
-        errorLogger.info(
-          `System: ${req.ip} | ${req.method} | ${
-            req.originalUrl
-          } >> ${err.toString()}`
-        );
         res.status(200).json({
           message: "Server Error",
           error: err.toString(),

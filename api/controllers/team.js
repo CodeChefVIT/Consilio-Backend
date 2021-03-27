@@ -312,7 +312,7 @@ exports.getTeamByUser = async(req,res)=>{
     });
   }
   else{
-    return res.status(404).json({
+    return res.status(203).json({
       message:"Not in a team"
     })
   }

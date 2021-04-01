@@ -24,6 +24,7 @@ const teamSchema = mongoose.Schema(
       default: null,
     },
     finalised: { type: Boolean, default: false },
+    submitted: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

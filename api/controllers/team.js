@@ -94,7 +94,12 @@ exports.join = async (req, res) => {
     return res.status(404).json({
       message: "Team not found",
     });
-  } else {
+  } else if(team.finalised){
+    return res.status(402).json({
+      message: "Team already finalised",
+    });
+  }
+  else {
     User.findById(userId)
       .then((user) => {
         if (user.inTeam) {
@@ -161,6 +166,12 @@ exports.leave = async (req, res) => {
           message: "You don't have any friends, get a life",
         });
       } else {
+        const team = await Team.findById(user.team)
+        if(team && team.finalised){
+          return res.status(402).json({
+            message: "Team already finalised",
+          });
+        }
         Team.findOneAndUpdate(
           { _id: user.team },
           { $pull: { users: userId } },

@@ -308,8 +308,8 @@ exports.getTeamByUser = async(req,res)=>{
   const {team} = await User.findById(userId)
   if(team){
   Team.findById(team)
-    .populate({ path: "leader", select: "name -_id" })
-    .populate({ path: "users", select: "name email -_id" })
+    .populate({ path: "leader", select: "name avatar -_id" })
+    .populate({ path: "users", select: "name email avatar -_id" })
     .select(" -updatedAt -__v ")
     .then((teams) => {
       res.status(200).json({

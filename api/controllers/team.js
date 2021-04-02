@@ -90,6 +90,7 @@ exports.join = async (req, res) => {
   const { userId } = req.user;
 
   const team = Team.findOne({ code });
+  consoile.log(team)
   if (!team) {
     return res.status(404).json({
       message: "Team not found",

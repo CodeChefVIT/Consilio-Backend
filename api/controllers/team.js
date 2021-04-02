@@ -21,7 +21,7 @@ exports.make = async (req, res) => {
           Team.findOne({ name })
             .then((team) => {
               if (team) {
-                return res.status(403).json({
+                return res.status(405).json({
                   message: "Team name take, use new team name",
                 });
               } else {
@@ -57,28 +57,28 @@ exports.make = async (req, res) => {
                           });
                         })
                         .catch((e) => {
-                          res.status(400).json({
+                          res.status(500).json({
                             error: e.toString(),
                           });
                         });
                     });
                   })
                   .catch((e) => {
-                    res.status(400).json({
+                    res.status(500).json({
                       error: e.toString(),
                     });
                   });
               }
             })
             .catch((e) => {
-              res.status(400).json({
+              res.status(500).json({
                 error: e.toString(),
               });
             });
         }
       })
       .catch((e) => {
-        res.status(400).json({
+        res.status(500).json({
           error: e.toString(),
         });
       });
@@ -130,27 +130,27 @@ exports.join = async (req, res) => {
                         });
                       })
                       .catch((e) => {
-                        res.status(400).json({
+                        res.status(500).json({
                           error: e.toString(),
                         });
                       });
                   })
                   .catch((e) => {
-                    res.status(400).json({
+                    res.status(500).json({
                       error: e.toString(),
                     });
                   });
               }
             })
             .catch((e) => {
-              res.status(400).json({
+              res.status(500).json({
                 error: e.toString(),
               });
             });
         }
       })
       .catch((e) => {
-        res.status(400).json({
+        res.status(500).json({
           error: e.toString(),
         });
       });
@@ -189,20 +189,20 @@ exports.leave = async (req, res) => {
                 });
               })
               .catch((e) => {
-                res.status(400).json({
+                res.status(500).json({
                   error: e.toString(),
                 });
               });
           })
           .catch((e) => {
-            res.status(400).json({
+            res.status(500).json({
               error: e.toString(),
             });
           });
       }
     })
     .catch((e) => {
-      res.status(400).json({
+      res.status(500).json({
         error: e.toString(),
       });
     });
@@ -210,8 +210,8 @@ exports.leave = async (req, res) => {
 
 exports.displayAll = async (req, res) => {
   Team.find({})
-    .populate({ path: "leader", select: "name -_id" })
-    .populate({ path: "users", select: "name email -_id" })
+    .populate({ path: "leader", select: "name avatar -_id" })
+    .populate({ path: "users", select: "name email avatar -_id" })
     .select("-code -idea -avatar -submission -updatedAt -__v ")
     .then((teams) => {
       res.status(200).json({
@@ -219,7 +219,7 @@ exports.displayAll = async (req, res) => {
       });
     })
     .catch((e) => {
-      res.status(400).json({
+      res.status(500).json({
         error: e.toString(),
       });
     });
@@ -237,7 +237,7 @@ exports.displayOne = async (req, res) => {
       });
     })
     .catch((e) => {
-      res.status(400).json({
+      res.status(500).json({
         error: e.toString(),
       });
     });
@@ -264,7 +264,7 @@ console.log(userId)
       });
     })
     .catch((e) => {
-      res.status(400).json({
+      res.status(500).json({
         error: e.toString(),
       });
     });
@@ -317,7 +317,7 @@ exports.getTeamByUser = async(req,res)=>{
       });
     })
     .catch((e) => {
-      res.status(400).json({
+      res.status(500).json({
         error: e.toString(),
       });
     });

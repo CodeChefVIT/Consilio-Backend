@@ -13,7 +13,7 @@ exports.update = async (req, res) => {
       });
     })
     .catch((e) => {
-      res.status(400).json({
+      res.status(500).json({
         error: e.toString(),
       });
     });

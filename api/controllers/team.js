@@ -89,7 +89,7 @@ exports.join = async (req, res) => {
   const { code } = req.body;
   const { userId } = req.user;
 
-  const team = Team.findOne({ code });
+  const team = await Team.findOne({ code });
   console.log(team)
   if (!team) {
     return res.status(404).json({

@@ -10,7 +10,7 @@ exports.make = async (req, res) => {
       message: "Name not provided",
     });
   } else {
-    User.findById(userId)
+    await User.findById(userId)
       .then((user) => {
         console.log(user);
         if (user.inTeam) {
@@ -18,7 +18,7 @@ exports.make = async (req, res) => {
             message: "Already in a team",
           });
         } else {
-          Team.findOne({ name })
+          await Team.findOne({ name })
             .then((team) => {
               if (team) {
                 return res.status(405).json({
@@ -42,11 +42,11 @@ exports.make = async (req, res) => {
                 team
                   .save()
                   .then((team) => {
-                    Team.updateOne(
+                    await Team.updateOne(
                       { _id: team._id },
                       { leader: userId, $addToSet: { users: userId } }
                     ).then(() => {
-                      User.updateOne(
+                      await User.updateOne(
                         { _id: userId },
                         { inTeam: true, team: team._id }
                       )
@@ -101,27 +101,27 @@ exports.join = async (req, res) => {
     });
   }
   else {
-    User.findById(userId)
+    await User.findById(userId)
       .then((user) => {
         if (user.inTeam) {
           return res.status(403).json({
             message: "Already in a team",
           });
         } else {
-          Team.findOne({ code })
+          await Team.findOne({ code })
             .then((team) => {
               if (team.users.length >= 2) {
                 return res.status(403).json({
                   message: "Team length full",
                 });
               } else {
-                Team.findOneAndUpdate(
+                await Team.findOneAndUpdate(
                   { code: code },
                   { $addToSet: { users: userId } },
                   { new: true }
                 )
                   .then((team) => {
-                    User.updateOne(
+                    await User.updateOne(
                       { _id: userId },
                       { inTeam: true, team: team._id }
                     )
@@ -160,7 +160,7 @@ exports.join = async (req, res) => {
 
 exports.leave = async (req, res) => {
   const { userId } = req.user;
-  User.findById(userId)
+  await User.findById(userId)
     .then(async (user) => {
       if (!user.inTeam) {
         return res.status(403).json({
@@ -173,7 +173,7 @@ exports.leave = async (req, res) => {
             message: "Team already finalised",
           });
         }
-        Team.findOneAndUpdate(
+        await Team.findOneAndUpdate(
           { _id: user.team },
           { $pull: { users: userId } },
           { new: true }
@@ -210,7 +210,7 @@ exports.leave = async (req, res) => {
 };
 
 exports.displayAll = async (req, res) => {
-  Team.find({})
+  await Team.find({})
     .populate({ path: "leader", select: "name avatar -_id" })
     .populate({ path: "users", select: "name email avatar -_id" })
     .select("-code -idea -avatar -submission -updatedAt -__v ")
@@ -228,7 +228,7 @@ exports.displayAll = async (req, res) => {
 
 exports.displayOne = async (req, res) => {
   const { teamId } = req.body;
-  Team.findById(teamId)
+  await Team.findById(teamId)
     .populate({ path: "leader", select: "name -_id email avatar" })
     .populate({ path: "users", select: "name email -_id avatar" })
     .select(" -updatedAt -__v ")
@@ -258,7 +258,7 @@ console.log(userId)
   }
   else{
   update = req.body;
-  Team.findOneAndUpdate({ _id: teamId }, update)
+  await Team.findOneAndUpdate({ _id: teamId }, update)
     .then((team) => {
       res.status(201).json({
         message: "Updated successfully",
@@ -308,7 +308,7 @@ exports.getTeamByUser = async(req,res)=>{
   const { userId } = req.user;
   const {team} = await User.findById(userId)
   if(team){
-  Team.findById(team)
+  await Team.findById(team)
     .populate({ path: "leader", select: "name avatar -_id" })
     .populate({ path: "users", select: "name email avatar -_id" })
     .select(" -updatedAt -__v ")

@@ -228,8 +228,8 @@ exports.displayAll = async (req, res) => {
 exports.displayOne = async (req, res) => {
   const { teamId } = req.body;
   Team.findById(teamId)
-    .populate({ path: "leader", select: "name -_id" })
-    .populate({ path: "users", select: "name email -_id" })
+    .populate({ path: "leader", select: "name -_id email avatar" })
+    .populate({ path: "users", select: "name email -_id avatar" })
     .select(" -updatedAt -__v ")
     .then((teams) => {
       res.status(200).json({

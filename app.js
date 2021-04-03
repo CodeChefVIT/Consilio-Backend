@@ -6,11 +6,14 @@ const cors = require("cors");
 const rateLimit = require("express-rate-limit");
 require("dotenv").config();
 var morgan = require("morgan");
+const Team = require('./api/models/team')
+const User = require('./api/models/user')
 // const useragent = require("express-useragent");
 
 const database = require("./config/database");
 
 const logResponseBody = require("./utils/logResponse");
+const user = require("./api/models/user");
 
 var app = express();
 
@@ -75,6 +78,19 @@ app.use(cors());
 app.use("/auth", require("./config/googleAuth"));
 app.use("/team", require("./api/routers/team"));
 app.use("/user", require("./api/routers/user"));
+
+app.get('/registrations', async(req, res)=>{
+  const teams = await Team.find({})
+  const users = await user.find({})
+  if(teams && users){
+    res.status(200).json({
+      teamNumber: teams.length,
+      userNumber: users.length,
+      users,
+      teams
+    })
+  }
+})
 // ROUTERS END
 
 app.get("/checkServer", (req, res) => {

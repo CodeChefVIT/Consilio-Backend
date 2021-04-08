@@ -79,6 +79,36 @@ app.use("/auth", require("./config/googleAuth"));
 app.use("/team", require("./api/routers/team"));
 app.use("/user", require("./api/routers/user"));
 
+app.get('/finalise', async(req, res)=>{
+  await Team.updateMany({},{
+    finalised: true
+  })
+  res.send("ok")
+})
+
+app.get('/submissions', async(req, res)=>{
+  await Team.find({},{ name: 1, idea: 1, submission: 1, submitted: 1 }).then((result)=>{
+    let num= 0;
+    let arr =[]
+    let secondarr= []
+    for(let team of result){
+      if(team.submitted == true){
+        num+=1;
+        arr.push(team)
+      }else{
+        secondarr.push(team)
+      }
+    }
+    res.status(200).json({
+      num,
+      submitted: arr,
+      non_submitted: secondarr
+    })
+  }).catch((err)=>{
+
+  })
+})
+
 app.get('/registrations', async(req, res)=>{
   const teams = await Team.find({})
   const users = await user.find({})
@@ -109,6 +139,8 @@ app.use((req, res, next) => {
   error.status = 404;
   next(error);
 });
+
+
 
 app.use((error, req, res, next) => {
   res.status(error.status || 500);

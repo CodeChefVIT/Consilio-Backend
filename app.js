@@ -89,20 +89,32 @@ app.get('/finalise', async(req, res)=>{
 app.get('/submissions', async(req, res)=>{
   await Team.find({},{ name: 1, idea: 1, submission: 1, submitted: 1 }).then((result)=>{
     let num= 0;
+    let num2 = 0
+    let num3 = 0;
     let arr =[]
     let secondarr= []
+    let thirdarr =[]
     for(let team of result){
       if(team.submitted == true){
         num+=1;
         arr.push(team)
       }else{
-        secondarr.push(team)
+        if(team.idea && team.submission){
+          num2 +=1
+          secondarr.push(team)
+        }else{
+          num3+=1
+          thirdarr.push(team)
+        }
       }
     }
     res.status(200).json({
-      num,
+      numSubmitted: num,
+      numSaved: num2,
+      numNothing: num3,
       submitted: arr,
-      non_submitted: secondarr
+      only_saved: secondarr,
+      noSaveOrSubmit: thirdarr
     })
   }).catch((err)=>{
 

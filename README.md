@@ -11,14 +11,19 @@
   [![UI ](https://img.shields.io/badge/User%20Interface-Link%20to%20UI-orange?style=flat-square&logo=appveyor)](https://designwith.codechefvit.com/)
   
 ## Features
-- Insert list of features here
+1. Reduce redundancy.
+2. Well updated and informative.
+3. Easy to use.
 
+## Important Links
+- [Consilio Frontend Repo](https://github.com/CodeChefVIT/Consilio-Frontend)
+- [Consilio Portal](https://designwith.codechefvit.com)
 ## Architecture 
 <img src="./diagrams/ex.png" alt="Project Screenshots"><br />
 
 <img src="./diagrams/diagram.jpeg" alt="Project Screenshots">
 
-## Instructions to run
+## Instructions to run 🛠️
 ```
 $ git clone https://github.com/CodeChefVIT/Consilio-Backend.git
 $ cd Consilio-Backend

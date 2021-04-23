@@ -29,8 +29,8 @@ $ node app.js
 ## Contributors
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/N0v0cain3"><img src="https://media-exp1.licdn.com/dms/image/C4D03AQFx8lR6OMoNMA/profile-displayphoto-shrink_800_800/0/1594350409729?e=1624492800&v=beta&t=Mt_yEImGn8CHs8m-2sRsncn6reNFetOMk8CS5wXln_U" width="100px;" alt=""/><br /><sub><b>Shivam Mehta</b></sub></a><br /> </td>
-      <td align="center"><a href="https://github.com/jugaldb"><img src="./diagrams/db.png" width="100px;" alt=""/><br /><sub><b>Jugal Bhatt</b></sub></a><br /> </td></td>
+    <td align="center"><a href="https://github.com/N0v0cain3"><img src="https://media-exp1.licdn.com/dms/image/C4D03AQFx8lR6OMoNMA/profile-displayphoto-shrink_800_800/0/1594350409729?e=1624492800&v=beta&t=Mt_yEImGn8CHs8m-2sRsncn6reNFetOMk8CS5wXln_U" width="200px;" alt=""/><br /><sub><b>Shivam Mehta</b></sub></a><br /> </td>
+      <td align="center"><a href="https://github.com/jugaldb"><img src="./diagrams/db.png" width="200px;" alt=""/><br /><sub><b>Jugal Bhatt</b></sub></a><br /> </td></td>
    
    
   </tr>
